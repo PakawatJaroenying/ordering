@@ -148,8 +148,8 @@ function App() {
 	function handleClearOrders() {
 		if (confirm("คุณแน่ใจหรือว่าต้องการลบข้อมูลทั้งหมด?")) {
 			setOrders({});
-			localStorage.removeItem('orders');
-      setLastAdded(null);
+			localStorage.removeItem("orders");
+			setLastAdded(null);
 		}
 	}
 
@@ -157,7 +157,7 @@ function App() {
 		<div className="min-h-screen bg-gray-100 flex items-center justify-center py-8">
 			<div className="max-w-md w-full mx-auto p-6 bg-white rounded-2xl shadow-xl border border-gray-200">
 				<img
-					src="/S__176734217.jpg"
+					src={`${import.meta.env.BASE_URL}S__176734217.jpg`}
 					alt="โลโก้ร้าน"
 					className="mx-auto mb-4 h-20 w-20 object-cover rounded-full border border-pink-200 shadow"
 				/>
@@ -256,7 +256,13 @@ function App() {
 				</div>
 				<div className="mt-4 flex items-center justify-between">
 					<h2 className="font-semibold mb-3 text-lg text-gray-700 flex items-center gap-2">
-						<span role="img" aria-label="list">📋</span> รายการสั่งซื้อ
+						<span
+							role="img"
+							aria-label="list"
+						>
+							📋
+						</span>{" "}
+						รายการสั่งซื้อ
 					</h2>
 					<div className="flex gap-2">
 						<Button
