@@ -65,6 +65,51 @@ function App() {
 		}, 100);
 	};
 
+	const hanedleDeleteOrder = () => {
+		const isConfirm = window.confirm("คุณแน่ใจหรือว่าต้องการลบรายการนี้?");
+		if (!isConfirm) return;
+		const trimmed = product.trim();
+		if (!trimmed || (quantity && quantity <= 0)) return;
+		if (!PRODUCTS.some((item) => item.name.toString() === trimmed)) {
+			alert("สินค้านี้ไม่มีอยู่ในรายการ");
+			return;
+		}
+		setOrders((prev) => {
+			const existingItems = prev[trimmed] || [];
+			const qtyToDelete = quantity || 0;
+			let qtyLeftToDelete = qtyToDelete;
+			const updatedItems: OrderItem[] = [];
+			for (let i = 0; i < existingItems.length; i++) {
+				const item = existingItems[i];
+				if (qtyLeftToDelete <= 0) {
+					updatedItems.push(item);
+				} else if (item.quantity <= qtyLeftToDelete) {
+					qtyLeftToDelete -= item.quantity;
+				} else {
+					updatedItems.push({
+						quantity: item.quantity - qtyLeftToDelete,
+						time: item.time,
+					});
+					qtyLeftToDelete = 0;
+				}
+			}
+			const newOrders = { ...prev };
+			if (updatedItems.length > 0) {
+				newOrders[trimmed] = updatedItems;
+			} else {
+				delete newOrders[trimmed];
+			}
+			return newOrders;
+		});
+
+		setProduct("");
+		setQuantity(null);
+		setOpen(true);
+		setTimeout(() => {
+			commandInputRef.current?.focus();
+		}, 100);
+	};
+
 	// Handle Enter key for quantity input
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
@@ -132,12 +177,21 @@ function App() {
 			const totalQty = items.reduce((sum, item) => sum + item.quantity, 0);
 			lines.push(`${name} ${totalQty}`);
 		});
-		const content = lines.join("\n");
-		const blob = new Blob([content], { type: "text/plain" });
+		// ใส่ BOM และกำหนด charset เพื่อให้ iOS/บางแอปอ่านภาษาไทยได้ถูกต้อง
+		const content = "\uFEFF" + lines.join("\r\n");
+		// ตั้งชื่อไฟล์เป็น วันที่-เดือน-ปี_เวลา (dd-MM-yyyy_HH-mm-ss)
+		const now = new Date();
+		const pad = (n: number) => String(n).padStart(2, "0");
+		const fileName = `${pad(now.getDate())}-${pad(
+			now.getMonth() + 1
+		)}-${now.getFullYear()}_${pad(now.getHours())}-${pad(
+			now.getMinutes()
+		)}-${pad(now.getSeconds())}.txt`;
+		const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = "orders.txt";
+		a.download = fileName;
 		document.body.appendChild(a);
 		a.click();
 		document.body.removeChild(a);
@@ -185,7 +239,7 @@ function App() {
 							</div>
 						);
 					})()}
-				<div className="flex gap-2 mb-4 relative">
+				<div className="flex gap-2 mb-4 relative w-full">
 					<Popover
 						open={open}
 						onOpenChange={setOpen}
@@ -229,7 +283,7 @@ function App() {
 						</PopoverContent>
 					</Popover>
 
-					<div className="w-24">
+					<div className="w-full">
 						<Input
 							ref={inputRef}
 							type="number"
@@ -240,8 +294,10 @@ function App() {
 							className="rounded-lg border-gray-300 shadow-sm focus:ring-pink-200"
 						/>
 					</div>
+				</div>
+				<div className="flex w-full items-center justify-between gap-4">
 					<Button
-						className="bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg shadow-sm px-4"
+						className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg shadow-sm px-4"
 						disabled={
 							!PRODUCTS.some(
 								(item) => item.name.toString() === product.trim()
@@ -252,6 +308,19 @@ function App() {
 						onClick={handleAddOrder}
 					>
 						เพิ่ม
+					</Button>
+					<Button
+						className="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-lg shadow-sm px-4"
+						disabled={
+							!PRODUCTS.some(
+								(item) => item.name.toString() === product.trim()
+							) ||
+							quantity === null ||
+							quantity <= 0
+						}
+						onClick={hanedleDeleteOrder}
+					>
+						ลบ
 					</Button>
 				</div>
 				<div className="mt-4 flex items-center justify-between">

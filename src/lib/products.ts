@@ -18,6 +18,8 @@ export const PRODUCTS = [
 	{ id: 16, name: "ช็อคโกแลตลูกเกด", price: 36 },
 	{ id: 17, name: "ลูกเกดไข่เค็ม", price: 38 },
 	{ id: 18, name: "หมูหยองไข่เค็ม", price: 38 },
+	{ id: 25, name: 'หมูหยองมายองเนส', price: 36 },
+	{ id: 26, name: 'ถั่วทอง', price: 36 },
 	{ id: 19, name: "สังขยาไข่เค็ม", price: 38 },
 	{ id: 20, name: "ถั่วเขียวไข่เค็ม", price: 38 },
 	{ id: 21, name: "ฝอยทอง", price: 38 },
