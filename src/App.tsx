@@ -297,19 +297,6 @@ function App() {
 				</div>
 				<div className="flex w-full items-center justify-between gap-4">
 					<Button
-						className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg shadow-sm px-4"
-						disabled={
-							!PRODUCTS.some(
-								(item) => item.name.toString() === product.trim()
-							) ||
-							quantity === null ||
-							quantity <= 0
-						}
-						onClick={handleAddOrder}
-					>
-						เพิ่ม
-					</Button>
-					<Button
 						className="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-lg shadow-sm px-4"
 						disabled={
 							!PRODUCTS.some(
@@ -321,6 +308,19 @@ function App() {
 						onClick={hanedleDeleteOrder}
 					>
 						ลบ
+					</Button>
+					<Button
+						className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg shadow-sm px-4"
+						disabled={
+							!PRODUCTS.some(
+								(item) => item.name.toString() === product.trim()
+							) ||
+							quantity === null ||
+							quantity <= 0
+						}
+						onClick={handleAddOrder}
+					>
+						เพิ่ม
 					</Button>
 				</div>
 				<div className="mt-4 flex items-center justify-between">
