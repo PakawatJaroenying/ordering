@@ -1,13 +1,54 @@
-# React + TypeScript + Vite
+# Ordering Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Order aggregator application built with React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## 🌐 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application is deployed on GitHub Pages: [https://pakawatjaroenying.github.io/ordering/](https://pakawatjaroenying.github.io/ordering/)
 
-## Expanding the ESLint configuration
+## 🚀 Development
+
+This project uses the following stack:
+- React 19 with TypeScript
+- Vite for build and development
+- Tailwind CSS for styling
+- Shadcn/ui components
+### Installation
+
+```bash
+npm install
+```
+
+### Development Server
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## 📦 Deployment
+
+This application is automatically deployed to GitHub Pages using GitHub Actions. The deployment happens automatically when code is pushed to the `main` branch.
+
+### GitHub Pages Setup
+
+The application is configured for GitHub Pages deployment with:
+- Base path set to `/ordering/` in `vite.config.ts`
+- GitHub Actions workflow in `.github/workflows/deploy.yml`
+- Static files optimized for GitHub Pages hosting
+
+## 🔧 ESLint Configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
